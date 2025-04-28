@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
@@ -50,6 +51,18 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'department_id' => 5,
         ]);
+
+        for ($i = 1; $i <= 20; $i++) {
+            $user = User::create([
+                'name' => 'User ' . $i,
+                'email' => 'user' . $i . '@example.com',
+                'password' => Hash::make('password'),
+                'department_id' => round(1, 5),
+            ]);
+
+            $user->assignRole('staff');
+        }
+
 
         $user = \App\Models\User::find(1);
         $user->assignRole('super_admin');
